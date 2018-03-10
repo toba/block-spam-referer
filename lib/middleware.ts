@@ -1,7 +1,7 @@
 import { is, HttpStatus, merge, EventEmitter, re } from '@toba/tools';
 import * as url from 'url';
 import fetch from 'node-fetch';
-import { ClientRequest, ClientResponse } from 'http';
+import { ClientRequest, ClientResponse, ServerResponse } from 'http';
 
 export type EventListener = (e: any) => void;
 
@@ -44,7 +44,7 @@ export const topDomain = (address: string) => {
  */
 function blockSpamReferers(
    req: ClientRequest,
-   res: ClientResponse,
+   res: ServerResponse,
    next: () => void
 ) {
    const referer = req.getHeader('referer');
@@ -53,9 +53,8 @@ function blockSpamReferers(
       checkSpammerList(topDomain(referer)).then(spam => {
          if (spam) {
             emitter.emit(EventType.BlockedReferer, referer);
-            //res.statusCode(HttpStatus.NotFound).end();
-            //res.status = HttpStatus.NotFound;
-            //res.status(HttpStatus.NotFound).end();
+            res.statusCode = HttpStatus.NotFound;
+            res.end();
          } else {
             next();
          }
@@ -102,7 +101,7 @@ export function downloadSpammerList(): Promise<string[]> {
             if (res.status != HttpStatus.OK) {
                emitter.emit(
                   EventType.DownloadError,
-                  `${blackListUrl} returned ${res.status}`
+                  `${blackListUrl} returned HTTP status: ${res.status}`
                );
                return null;
             } else {
@@ -114,7 +113,7 @@ export function downloadSpammerList(): Promise<string[]> {
 
             if (is.value(body)) {
                // list of non-empty lines
-               list = body.split('\n').filter(i => !is.empty(i));
+               list = body.split(/[\n\r]/).filter(i => !is.empty(i));
             }
             isDownloading = false;
 
