@@ -1,0 +1,4 @@
+{
+   "jest.autoEnable": true,
+   "jest.enableCodeLens": true
+}
