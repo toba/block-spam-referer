@@ -1,6 +1,6 @@
 {
    "name": "@toba/block-spam-referer",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "description": "Block Spam Referers",
    "private": false,
    "author": {

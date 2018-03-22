@@ -1,7 +1,7 @@
-import { is, HttpStatus, EventEmitter, re } from '@toba/tools';
+import { is, HttpStatus, EventEmitter, Header, re } from '@toba/tools';
 import * as url from 'url';
 import fetch from 'node-fetch';
-import { ClientRequest, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 
 export type EventListener = (e: any) => void;
 
@@ -38,16 +38,16 @@ export const topDomain = (address: string) => {
 };
 
 /**
- * Return 404 for known spam referers
+ * Express compatible middleware. Return 404 for known spam referers.
  *
  * https://en.wikipedia.org/wiki/Referer_spam
  */
 export async function blockSpamReferers(
-   req: ClientRequest,
+   req: IncomingMessage,
    res: ServerResponse,
-   next: () => void
+   next: (err?: any) => void
 ) {
-   const referer = req.getHeader('referer');
+   const referer = req.headers[Header.Referer];
 
    if (is.value<string>(referer)) {
       const isSpam = await checkSpammerList(topDomain(referer));
