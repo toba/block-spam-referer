@@ -1,14 +1,14 @@
-import { is, HttpStatus, merge, EventEmitter, re } from '@toba/tools';
+import { is, HttpStatus, EventEmitter, re } from '@toba/tools';
 import * as url from 'url';
 import fetch from 'node-fetch';
-import { ClientRequest, ClientResponse, ServerResponse } from 'http';
+import { ClientRequest, ServerResponse } from 'http';
 
 export type EventListener = (e: any) => void;
 
 /** List of blocked domains */
 let blackList: string[] = [];
 /** Source of blocked domain list */
-let blackListUrl =
+const blackListUrl =
    'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
 
 let isDownloading = false;
@@ -42,7 +42,7 @@ export const topDomain = (address: string) => {
  *
  * https://en.wikipedia.org/wiki/Referer_spam
  */
-function blockSpamReferers(
+export async function blockSpamReferers(
    req: ClientRequest,
    res: ServerResponse,
    next: () => void
@@ -50,15 +50,14 @@ function blockSpamReferers(
    const referer = req.getHeader('referer');
 
    if (is.value<string>(referer)) {
-      checkSpammerList(topDomain(referer)).then(spam => {
-         if (spam) {
-            emitter.emit(EventType.BlockedReferer, referer);
-            res.statusCode = HttpStatus.NotFound;
-            res.end();
-         } else {
-            next();
-         }
-      });
+      const isSpam = await checkSpammerList(topDomain(referer));
+      if (isSpam) {
+         emitter.emit(EventType.BlockedReferer, referer);
+         res.statusCode = HttpStatus.NotFound;
+         res.end();
+      } else {
+         next();
+      }
    } else {
       next();
    }
