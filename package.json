@@ -1,6 +1,6 @@
 {
    "name": "@toba/block-spam-referer",
-   "version": "1.0.2",
+   "version": "1.0.3",
    "description": "Block Spam Referers",
    "private": false,
    "author": {
@@ -33,7 +33,7 @@
       "tabWidth": 3
    },
    "dependencies": {
-      "@toba/tools": "^1.12.0",
+      "@toba/tools": "^1.13.0",
       "@types/node-fetch": "^1.6.7",
       "node-fetch": "^2.1.1"
    }

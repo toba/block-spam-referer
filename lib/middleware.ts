@@ -22,7 +22,7 @@ export enum EventType {
    BlockedReferer
 }
 
-const emitter = new EventEmitter<EventType, any>();
+export const emitter = new EventEmitter<EventType, any>();
 
 /**
  * Infer top level domain from URL.
@@ -45,7 +45,7 @@ export const topDomain = (address: string) => {
 export async function blockSpamReferers(
    req: IncomingMessage,
    res: ServerResponse,
-   next: (err?: any) => void
+   next: (err?: any) => void = () => null
 ) {
    const referer = req.headers[Header.Referer];
 

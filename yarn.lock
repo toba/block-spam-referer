@@ -43,7 +43,7 @@
     tslint-config-prettier "^1.9.0"
     tslint-consistent-codestyle "^1.11.0"
 
-"@toba/test@^1.8.3":
+"@toba/test@^1.8.0":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@toba/test/-/test-1.8.1.tgz#f8516153e43ccf5f3315ac5d97ed68326a13c0b8"
   dependencies:
@@ -58,6 +58,12 @@
 "@toba/tools@^1.12.0":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@toba/tools/-/tools-1.12.1.tgz#10af417e25d52effe3abf3f3b3dfc4489391c7f4"
+  dependencies:
+    zlib "^1.0.5"
+
+"@toba/tools@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@toba/tools/-/tools-1.13.0.tgz#9a13488db96c5e699af5ac2ab877ca124e658ad7"
   dependencies:
     zlib "^1.0.5"
 
