@@ -3,4 +3,4 @@ export {
    checkSpammerList,
    blockSpamReferers,
    EventType
-} from './lib/middleware';
+} from './middleware';

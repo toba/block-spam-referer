@@ -1,7 +1,7 @@
 //import * as http from 'http';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Header, HttpStatus } from '@toba/tools';
-import { EventType, addEventListener, blockSpamReferers } from '../index';
+import { EventType, addEventListener, blockSpamReferers } from './index';
 import { downloadSpammerList, emitter } from './middleware';
 
 const length = 567;
