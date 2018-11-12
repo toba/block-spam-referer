@@ -1,6 +1,6 @@
 {
    "name": "@toba/block-spam-referer",
-   "version": "1.0.8",
+   "version": "2.0.0",
    "description": "Block Spam Referers",
    "private": false,
    "author": {
@@ -15,14 +15,15 @@
       "prepublishOnly": "./node_modules/.bin/tsc",
       "test": "jest --coverage"
    },
-   "main": "dist/index.js",
-   "types:": "dist/index.d.ts",
+   "main": "lib/index.ts",
+   "types:": "js/index.d.ts",
    "files": [
-      "dist/**/*"
+      "lib/**/!(*.test).ts",
+      "js"
    ],
    "devDependencies": {
-      "@toba/build": "^1.6.1",
-      "@toba/test": "^1.13.0",
+      "@toba/build": "^1.8.4",
+      "@toba/test": "^2.0.3",
       "prettier": "^1.13.0",
       "typescript": "^3.1.0"
    },
@@ -38,7 +39,7 @@
       "tabWidth": 3
    },
    "dependencies": {
-      "@toba/tools": "^3.2.0",
+      "@toba/tools": "^4.0.3",
       "@types/node-fetch": "^2.1.0",
       "node-fetch": "^2.1.1"
    }

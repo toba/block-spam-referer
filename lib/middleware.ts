@@ -27,14 +27,19 @@ export const emitter = new EventEmitter<EventType, any>();
 /**
  * Infer top level domain from URL.
  *
- * https://github.com/igormilla/top-domain
+ * @see https://github.com/igormilla/top-domain
  */
 export const topDomain = (address: string) => {
    const parsed = url.parse(address.toLowerCase());
    const domain = parsed.host !== null ? parsed.host : parsed.path;
-   const match = domain.match(re.domain);
 
-   return match ? match[0] : parsed.host;
+   if (domain !== undefined) {
+      const match = domain.match(re.domain);
+      if (match !== null) {
+         return match[0];
+      }
+   }
+   return parsed.host;
 };
 
 /**
@@ -70,11 +75,12 @@ export function addEventListener(type: EventType, fn: (e: any) => void) {
 /**
  * Whether requestor domain matches a spam referer.
  *
- * https://en.wikipedia.org/wiki/Referer_spam
+ * @see https://en.wikipedia.org/wiki/Referer_spam
  */
-export function checkSpammerList(domain: string): Promise<boolean> {
-   return getSpammerList().then(list => list.indexOf(domain) !== -1);
-}
+export const checkSpammerList = (domain?: string): Promise<boolean> =>
+   domain !== undefined
+      ? getSpammerList().then(list => list.indexOf(domain) !== -1)
+      : Promise.resolve(true);
 
 /**
  * Load spammer list from cache or remote provider
@@ -102,12 +108,12 @@ export function downloadSpammerList(): Promise<string[]> {
                   EventType.DownloadError,
                   `${blackListUrl} returned HTTP status: ${res.status}`
                );
-               return null;
+               return Promise.resolve(null);
             } else {
                return res.text();
             }
          })
-         .then((body: string) => {
+         .then((body: string | null) => {
             let list: string[] = [];
 
             if (is.value(body)) {
@@ -129,7 +135,7 @@ export function downloadSpammerList(): Promise<string[]> {
                return [];
             }
          })
-         .catch(err => {
+         .catch((err: Error) => {
             emitter.emit(
                EventType.DownloadError,
                `Failed to download: ${err.toString()}`
