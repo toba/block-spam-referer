@@ -14,7 +14,7 @@ const blackListUrl =
 let isDownloading = false;
 let pending: ((list: string[]) => void)[] = [];
 
-export enum EventType {
+export const enum EventType {
    BeginningDownload,
    AlreadyDownloading,
    DownloadError,
@@ -45,7 +45,7 @@ export const topDomain = (address: string) => {
 /**
  * Express compatible middleware. Return 404 for known spam referers.
  *
- * https://en.wikipedia.org/wiki/Referer_spam
+ * @see https://en.wikipedia.org/wiki/Referer_spam
  */
 export async function blockSpamReferers(
    req: IncomingMessage,
@@ -116,7 +116,7 @@ export function downloadSpammerList(): Promise<string[]> {
          .then((body: string | null) => {
             let list: string[] = [];
 
-            if (is.value(body)) {
+            if (is.value<string>(body)) {
                // list of non-empty lines
                list = body.split(/[\n\r]/).filter(i => !is.empty(i));
             }

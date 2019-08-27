@@ -1,4 +1,5 @@
 //import * as http from 'http';
+import { Socket } from 'net';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Header, HttpStatus } from '@toba/tools';
 import { EventType, addEventListener, blockSpamReferers } from './index';
@@ -16,7 +17,7 @@ beforeEach(() => {
 });
 
 async function makeRequest(referer: string) {
-   const req = new IncomingMessage(null);
+   const req = new IncomingMessage(new Socket());
    const res = new ServerResponse(req);
 
    req.headers[Header.Referer] = referer;

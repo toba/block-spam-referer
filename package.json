@@ -1,6 +1,6 @@
 {
    "name": "@toba/block-spam-referer",
-   "version": "2.0.0",
+   "version": "2.1.0",
    "description": "Block Spam Referers",
    "private": false,
    "author": {
@@ -11,21 +11,23 @@
    "publishConfig": {
       "access": "public"
    },
+   "main": "cjs/index.js",
+   "module": "esm/index.js",
+   "types": "esm/index.d.ts",
+   "files": [
+      "esm",
+      "cjs"
+   ],
    "scripts": {
-      "prepublishOnly": "./node_modules/.bin/tsc",
+      "build:esm": "./node_modules/.bin/tsc --project ./node_modules/@toba/develop/tsconfig.esm.json",
+      "build:cjs": "./node_modules/.bin/tsc --project ./node_modules/@toba/develop/tsconfig.cjs-min.json",
+      "prepublishOnly": "npm run build:esm & npm run build:cjs",
       "test": "jest --coverage"
    },
-   "main": "lib/index.ts",
-   "types:": "js/index.d.ts",
-   "files": [
-      "lib/**/!(*.test).ts",
-      "js"
-   ],
    "devDependencies": {
-      "@toba/build": "^1.8.4",
-      "@toba/test": "^2.0.3",
-      "prettier": "^1.13.0",
-      "typescript": "^3.1.0"
+      "@toba/develop": "^6.6.11",
+      "@toba/test": "^4.1.0",
+      "typescript": "^3.5.0"
    },
    "repository": {
       "type": "git",
@@ -34,12 +36,8 @@
    "bugs": {
       "url": "https://github.com/toba/block-spam-referer/issues"
    },
-   "prettier": {
-      "singleQuote": true,
-      "tabWidth": 3
-   },
    "dependencies": {
-      "@toba/tools": "^4.0.3",
+      "@toba/tools": "^6.7.0",
       "@types/node-fetch": "^2.1.0",
       "node-fetch": "^2.1.1"
    }
