@@ -25,9 +25,9 @@
       "test": "jest --coverage"
    },
    "devDependencies": {
-      "@toba/develop": "^6.6.11",
-      "@toba/test": "^4.1.0",
-      "typescript": "^3.5.0"
+      "@toba/develop": "^6.6.12",
+      "@toba/test": "^4.1.13",
+      "typescript": "^3.6.2"
    },
    "repository": {
       "type": "git",
@@ -37,7 +37,7 @@
       "url": "https://github.com/toba/block-spam-referer/issues"
    },
    "dependencies": {
-      "@toba/tools": "^6.7.0",
+      "@toba/tools": "^6.7.7",
       "@types/node-fetch": "^2.1.0",
       "node-fetch": "^2.1.1"
    }
